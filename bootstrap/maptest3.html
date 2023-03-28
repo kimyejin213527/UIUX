@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>지도 타입 바꾸기1</title>
+  </head>
+  <body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <div id="map" style="width: 100%; height: 350px"></div>
+    <link
+      rel="canonical"
+      href="https://getbootstrap.com/docs/5.3/examples/carousel/"
+    />
+    <p>
+      <button
+        onclick="setOverlayMapTypeId('traffic')"
+        class="btn btn-primary btn-lg"
+      >
+        교통정보 보기
+      </button>
+      <button
+        onclick="setOverlayMapTypeId('roadview')"
+        class="btn btn-primary btn-lg"
+      >
+        로드뷰 도로정보 보기
+      </button>
+      <button
+        onclick="setOverlayMapTypeId('terrain')"
+        class="btn btn-primary btn-lg"
+      >
+        지형정보 보기
+      </button>
+      <button
+        onclick="setOverlayMapTypeId('use_district')"
+        class="btn btn-primary btn-lg"
+      >
+        지적편집도 보기
+      </button>
+      <button onclick="setDraggable(false)" class="btn btn-primary btn-lg">
+        지도 드래그 이동 끄기
+      </button>
+      <button onclick="setDraggable(true)" class="btn btn-primary btn-lg">
+        지도 드래그 이동 켜기
+      </button>
+    </p>
+
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1b5e67fd2cf996319608a79e7a665c6b"
+    ></script>
+    <script>
+      var mapContainer = document.getElementById("map"), // 지도를 표시할 div
+        mapOption = {
+          center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+          level: 5, // 지도의 확대 레벨
+        };
+
+      var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+      // 지도에 추가된 지도타입정보를 가지고 있을 변수입니다
+      var currentTypeId;
+
+      // 버튼이 클릭되면 호출되는 함수입니다
+      function setOverlayMapTypeId(maptype) {
+        var changeMaptype;
+
+        // maptype에 따라 지도에 추가할 지도타입을 결정합니다
+        if (maptype === "traffic") {
+          // 교통정보 지도타입
+          changeMaptype = kakao.maps.MapTypeId.TRAFFIC;
+        } else if (maptype === "roadview") {
+          // 로드뷰 도로정보 지도타입
+          changeMaptype = kakao.maps.MapTypeId.ROADVIEW;
+        } else if (maptype === "terrain") {
+          // 지형정보 지도타입
+          changeMaptype = kakao.maps.MapTypeId.TERRAIN;
+        } else if (maptype === "use_district") {
+          // 지적편집도 지도타입
+          changeMaptype = kakao.maps.MapTypeId.USE_DISTRICT;
+        }
+
+        // 이미 등록된 지도 타입이 있으면 제거합니다
+        if (currentTypeId) {
+          map.removeOverlayMapTypeId(currentTypeId);
+        }
+
+        // maptype에 해당하는 지도타입을 지도에 추가합니다
+        map.addOverlayMapTypeId(changeMaptype);
+
+        // 지도에 추가된 타입정보를 갱신합니다
+        currentTypeId = changeMaptype;
+      }
+      function setDraggable(draggable) {
+        // 마우스 드래그로 지도 이동 가능여부를 설정합니다
+        map.setDraggable(draggable);
+      }
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
